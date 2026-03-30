@@ -126,9 +126,8 @@ class PlexServer:
         if not section_types:
             section_types = ['movie']
 
-        sections = self.request('library/sections')
-
         try:
+            sections = self.request('library/sections')
             for section in sections.findall('Directory'):
                 if section.get('type') not in section_types:
                     continue
