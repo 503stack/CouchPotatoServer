@@ -253,3 +253,12 @@ class Renamer(Plugin, ScannerMixin, MoverMixin, NamerMixin, ExtractorMixin, Clea
             source_folder = group.get('parentdir')
             if source_folder and os.path.isdir(source_folder):
                 self.deleteFolder(source_folder)
+
+        destination_dir = os.path.dirname(next(iter(rename_files.values())))
+        after_group = {
+            'destination_dir': destination_dir,
+            'renamed_files': list(rename_files.values()),
+            'release_download': release_download or {},
+            'media': media_info,
+        }
+        fireEvent('renamer.after', message=media_title, group=after_group)

@@ -338,6 +338,7 @@ class FolderScannerMixin:
             except Exception:
                 pass
 
+        tmdb_fallback = None
         if not imdb_id:
             for identifier in group['identifiers']:
                 if len(identifier) > 2:
@@ -361,6 +362,8 @@ class FolderScannerMixin:
                             log.debug('Found movie via search: %s', identifier)
                             if imdb_id:
                                 break
+                            elif movie[0].get('tmdb_id') and not tmdb_fallback:
+                                tmdb_fallback = movie[0]
                 else:
                     log.debug('Identifier to short to use for search: %s', identifier)
 
@@ -374,6 +377,14 @@ class FolderScannerMixin:
                     'identifier': imdb_id,
                     'info': fireEvent('movie.info', identifier=imdb_id, merge=True, extended=False)
                 }
+
+        if tmdb_fallback:
+            tmdb_id = str(tmdb_fallback['tmdb_id'])
+            log.debug('No IMDB id found, falling back to TMDB id %s for %s', tmdb_id, group['identifiers'])
+            return {
+                'identifier': 'tmdb-%s' % tmdb_id,
+                'info': tmdb_fallback,
+            }
 
         log.error('No imdb_id found for %s. Add a NFO file with IMDB id or add the year to the filename.',
                   group['identifiers'])
