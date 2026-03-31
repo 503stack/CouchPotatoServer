@@ -3,7 +3,7 @@ import os
 import traceback
 
 from couchpotato.api import addApiView
-from couchpotato.core.event import addEvent, fireEvent
+from couchpotato.core.event import addEvent, fireEvent, fireEventAsync
 from couchpotato.core.helpers.variable import sp
 from couchpotato.core.logger import CPLog
 from couchpotato.core.plugins.base import Plugin
@@ -48,16 +48,19 @@ class Renamer(Plugin, ScannerMixin, MoverMixin, NamerMixin, ExtractorMixin, Clea
         fireEvent('schedule.interval', 'renamer.force_scan', self.scan,
                   hours=force_every)
 
+        fireEventAsync('renamer.check_snatched')
+
     def scanView(self, **kwargs):
         """API handler for renamer.scan."""
         base_folder = kwargs.get('base_folder')
         media_folder = kwargs.get('media_folder')
 
-        fireEvent('renamer.scan', base_folder=base_folder,
-                  media_folder=media_folder, async_call=True)
+        fireEventAsync('renamer.scan', base_folder=base_folder,
+                       media_folder=media_folder)
 
         return {
-            'success': True
+            'success': True,
+            'message': 'Scan started, check the logs for progress.',
         }
 
     def scan(self, base_folder=None, media_folder=None, release_download=None, async_call=False):

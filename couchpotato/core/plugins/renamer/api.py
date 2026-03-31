@@ -50,6 +50,13 @@ config = [{
                     'type': 'enabler',
                 },
                 {
+                    'name': 'scan',
+                    'type': 'button',
+                    'label': 'Scan',
+                    'button_text': 'Scan for downloaded movies',
+                    'button_action': 'renamer.scan',
+                },
+                {
                     'name': 'from',
                     'type': 'directory',
                     'description': 'Folder where CP searches for movies.',
