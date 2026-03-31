@@ -100,8 +100,9 @@ class CodernityDBAdapter(DatabaseInterface):
     def add_index(self, index, create: bool = True) -> str:
         return self._db.add_index(index, create=create)
 
-    def reindex(self, index_name: str) -> None:
-        self._db.reindex_index(index_name)
+    def reindex(self, index_name: str = None) -> None:
+        if index_name:
+            self._db.reindex_index(index_name)
 
     def compact(self) -> None:
         self._db._compact_indexes()

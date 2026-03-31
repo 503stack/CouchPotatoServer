@@ -472,7 +472,7 @@ class SQLiteAdapter(DatabaseInterface):
         name = getattr(index, 'name', str(index)) if not isinstance(index, str) else index
         self._indexes.pop(name, None)
 
-    def reindex(self, index_name: str) -> None:
+    def reindex(self, index_name: str = None) -> None:
         """No-op for SQLite; indexes are automatically maintained."""
         pass
 

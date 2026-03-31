@@ -119,7 +119,7 @@ class DatabaseInterface(ABC):
         """
 
     @abstractmethod
-    def reindex(self, index_name: str) -> None:
+    def reindex(self, index_name: str = None) -> None:
         """Reindex a specific index."""
 
     @abstractmethod

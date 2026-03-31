@@ -34,6 +34,14 @@ class NamerMixin:
                                                remove_multiple=remove_multiple, folder=True)
             final_file_name = self.doReplace(file_name, replacements,
                                              remove_multiple=remove_multiple)
+
+            if isinstance(destination, bytes):
+                destination = destination.decode('utf-8', errors='replace')
+            if isinstance(final_folder_name, bytes):
+                final_folder_name = final_folder_name.decode('utf-8', errors='replace')
+            if isinstance(final_file_name, bytes):
+                final_file_name = final_file_name.decode('utf-8', errors='replace')
+
             rename_files[extra] = os.path.join(destination, final_folder_name, final_file_name)
 
         return rename_files
