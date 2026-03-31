@@ -27,6 +27,8 @@ class ScannerMixin:
             rels = list(fireEvent('release.with_status', ['snatched', 'seeding', 'missing'], single=True))
 
             if not rels:
+                if fire_scan:
+                    self.scan()
                 self.checking_snatched = False
                 return True
 

@@ -48,7 +48,7 @@ class Renamer(Plugin, ScannerMixin, MoverMixin, NamerMixin, ExtractorMixin, Clea
         fireEvent('schedule.interval', 'renamer.force_scan', self.scan,
                   hours=force_every)
 
-        fireEventAsync('renamer.check_snatched')
+        fireEventAsync('renamer.scan')
 
     def scanView(self, **kwargs):
         """API handler for renamer.scan."""
